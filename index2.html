@@ -67,7 +67,6 @@
       color: white;
       padding: 2rem;
       transition: right 0.3s ease;
-      z-index: 998;
     }
 
     .sidebar.visible {
@@ -88,18 +87,12 @@
     }
 
     .intro {
+      background: var(--accent2);
+      color: var(--text);
+      padding: 2rem;
+      border-radius: 12px;
       text-align: center;
       margin-bottom: 2rem;
-    }
-
-    .intro h2 {
-      color: var(--accent1);
-      margin-bottom: 0.5rem;
-    }
-
-    .intro p {
-      font-size: 1.1rem;
-      color: var(--text);
     }
 
     .search-wrapper {
@@ -128,7 +121,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       margin: 0 auto;
-      width: 90%;
+      max-width: 700px;
     }
 
     .post-title {
@@ -136,14 +129,6 @@
       font-size: 1.6rem;
       font-weight: bold;
       margin-bottom: 1rem;
-    }
-
-    .read-more {
-      display: inline-block;
-      margin-top: 1rem;
-      color: var(--accent1);
-      text-decoration: underline;
-      font-weight: 500;
     }
 
     .tags {
@@ -158,6 +143,17 @@
       border-radius: 12px;
       margin-right: 0.5rem;
       font-size: 0.8rem;
+    }
+
+    .read-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--accent1);
+      font-weight: 500;
+    }
+
+    .read-link:hover {
+      text-decoration: underline;
     }
 
     footer {
@@ -179,7 +175,7 @@
   <header>
     <div class="burger" id="burgerMenu">☰</div>
     <h1>Blessing Agbor's API Security Journal</h1>
-    <p>Learning API Security, One Challenge at a Time</p>
+    <p>Learning API Security, Week by Week</p>
   </header>
 
   <div class="sidebar" id="sidebar">
@@ -192,7 +188,7 @@
   <main>
     <div class="intro">
       <h2>Welcome!</h2>
-      <p>This blog is my open notebook as I explore API Security — documenting lessons, vulnerabilities, tools, and takeaways from real-world exercises. Whether you're a beginner or growing expert, you'll find real talk, clean writeups, and insight into breaking and securing APIs.</p>
+      <p>This is where I document my journey learning API security from scratch—vulnerabilities, tools, stories, and breakthroughs. If you're curious about APIs, DevSecOps, or just want to follow a real learning curve, you're in the right place.</p>
     </div>
 
     <div class="search-wrapper">
@@ -204,34 +200,34 @@
         <div class="swiper-slide slide">
           <div class="post-title">Debugging Myself While Debugging APIs</div>
           <p>Exploring VAmPI, I uncovered API security flaws like BOLA, BFLA, and learned the difference between public data vs protected actions.</p>
-          <a class="read-more" href="posts/VamPI_analysis_Week1.html">Read full report →</a>
           <div class="tags">
             <span class="tag">OWASP</span>
             <span class="tag">DevSecOps</span>
             <span class="tag">VAmPI</span>
           </div>
+          <a class="read-link" href="posts/VamPI analysis: Week1.html">Read full report →</a>
         </div>
 
         <div class="swiper-slide slide">
           <div class="post-title">Token Troubles & Trust Chains</div>
           <p>This post dives into JWT authentication, misconfigured endpoints, and what broken trust looks like in real-world APIs.</p>
-          <a class="read-more" href="#">Read full report →</a>
           <div class="tags">
             <span class="tag">JWT</span>
             <span class="tag">Authentication</span>
             <span class="tag">API Design</span>
           </div>
+          <a class="read-link" href="#">Read full report →</a>
         </div>
 
         <div class="swiper-slide slide">
           <div class="post-title">Resetting the World via /createdb</div>
           <p>A rogue endpoint that resets production data? Yes. We explore the consequences of underprotected developer endpoints.</p>
-          <a class="read-more" href="#">Read full report →</a>
           <div class="tags">
             <span class="tag">Misconfig</span>
             <span class="tag">Security Flaws</span>
             <span class="tag">APIsec</span>
           </div>
+          <a class="read-link" href="#">Read full report →</a>
         </div>
       </div>
     </div>
@@ -246,9 +242,8 @@
   <script>
     const swiper = new Swiper('.swiper', {
       slidesPerView: 1,
-      spaceBetween: 30,
+      spaceBetween: 20,
       loop: false,
-      navigation: false,
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
