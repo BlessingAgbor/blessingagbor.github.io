@@ -16,6 +16,8 @@
       --accent2: #FFB4A2;
       --highlight: #FFF1E6;
       --text: #1D1D1D;
+      --shadow: 0 4px 20px rgba(0,0,0,0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     * {
@@ -29,226 +31,612 @@
       background: var(--highlight);
       color: var(--text);
       line-height: 1.7;
+      overflow-x: hidden;
     }
 
+    /* Enhanced Header with Navigation */
     header {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary) 0%, #004A5C 100%);
       color: white;
-      padding: 2rem 1rem;
-      text-align: center;
+      padding: 1.5rem 2rem;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo-section h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .logo-section p {
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+
+    /* Enhanced Navigation */
+    .nav-container {
       position: relative;
     }
 
-    header h1 {
-      font-size: 2rem;
-    }
-
-    header p {
-      opacity: 0.9;
-    }
-
-    .burger {
-      position: absolute;
-      top: 1.2rem;
-      right: 1.2rem;
+    .nav-toggle {
+      background: none;
+      border: none;
+      color: white;
       font-size: 1.5rem;
       cursor: pointer;
-      z-index: 999;
-      color: white;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .sidebar {
-      position: fixed;
-      top: 0;
-      right: -250px;
-      width: 250px;
-      height: 100%;
-      background: var(--primary);
-      color: white;
-      padding: 2rem;
-      transition: right 0.3s ease;
+    .nav-toggle:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-1px);
     }
 
-    .sidebar.visible {
+    .nav-dropdown {
+      position: absolute;
+      top: 100%;
       right: 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      min-width: 200px;
+      opacity: 0;
+      transform: translateY(-10px);
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 1000;
+      margin-top: 0.5rem;
     }
 
-    .sidebar a {
+    .nav-dropdown.visible {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .nav-dropdown a {
       display: block;
-      margin: 1rem 0;
-      color: white;
+      padding: 1rem 1.5rem;
+      color: var(--text);
       text-decoration: none;
+      transition: var(--transition);
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .nav-dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    .nav-dropdown a:hover {
+      background: var(--highlight);
+      color: var(--primary);
+      transform: translateX(5px);
     }
 
     main {
-      max-width: 900px;
+      max-width: 1200px;
       margin: 2rem auto;
-      padding: 0 1.5rem;
+      padding: 0 2rem;
     }
 
     .intro {
-      background: var(--accent2);
+      background: linear-gradient(135deg, var(--accent2) 0%, #FFD4C4 100%);
       color: var(--text);
-      padding: 2rem;
-      border-radius: 12px;
+      padding: 3rem 2rem;
+      border-radius: 20px;
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow);
     }
 
+    .intro h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .intro p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Enhanced Search */
     .search-wrapper {
-      margin-bottom: 2rem;
-      display: flex;
-      justify-content: center;
+      margin-bottom: 3rem;
+      position: relative;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .search-wrapper input {
-      padding: 0.7rem 1rem;
+    .search-container {
+      position: relative;
+    }
+
+    .search-input {
       width: 100%;
-      max-width: 500px;
+      padding: 1rem 1.5rem;
       border: 2px solid var(--accent2);
-      border-radius: 8px;
+      border-radius: 50px;
       font-size: 1rem;
+      background: white;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      outline: none;
     }
 
-    .swiper {
+    .search-input:focus {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .search-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 100;
+      margin-top: 0.5rem;
+      opacity: 0;
+      transform: translateY(-10px);
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .search-suggestions.visible {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .suggestion-item {
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .suggestion-item:hover {
+      background: var(--highlight);
+      color: var(--primary);
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+
+    .no-results {
+      padding: 1rem 1.5rem;
+      color: #666;
+      font-style: italic;
+    }
+
+    /* Enhanced Swiper */
+    .swiper-container {
       width: 100%;
-      padding-bottom: 2rem;
+      padding: 2rem 0 4rem 0;
+      position: relative;
     }
 
     .swiper-slide {
       background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
       margin: 0 auto;
-      max-width: 700px;
+      max-width: 800px;
+      transition: var(--transition);
+      cursor: grab;
+    }
+
+    .swiper-slide:active {
+      cursor: grabbing;
+    }
+
+    .swiper-slide:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
     }
 
     .post-title {
       color: var(--accent1);
-      font-size: 1.6rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.3;
     }
 
-    .tags {
-      margin-top: 1rem;
+    .post-content {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      color: #555;
     }
 
-    .tag {
-      display: inline-block;
-      background: var(--primary);
-      color: white;
-      padding: 0.3rem 0.6rem;
-      border-radius: 12px;
-      margin-right: 0.5rem;
-      font-size: 0.8rem;
+    .post-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
 
-    .read-link {
-      display: inline-block;
-      margin-top: 1rem;
-      color: var(--accent1);
+    .post-date {
+      color: #666;
+      font-size: 0.9rem;
       font-weight: 500;
     }
 
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      background: var(--primary);
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .tag:hover {
+      background: var(--accent1);
+      transform: translateY(-1px);
+    }
+
+    .read-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent1);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+
     .read-link:hover {
-      text-decoration: underline;
+      color: var(--primary);
+      transform: translateX(5px);
+    }
+
+    /* Swiper Navigation */
+    .swiper-button-next,
+    .swiper-button-prev {
+      background: var(--primary);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      background: var(--accent1);
+      transform: scale(1.1);
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .swiper-pagination {
+      bottom: 0 !important;
+    }
+
+    .swiper-pagination-bullet {
+      background: var(--primary);
+      opacity: 0.5;
+      transition: var(--transition);
+    }
+
+    .swiper-pagination-bullet-active {
+      opacity: 1;
+      background: var(--accent1);
+      transform: scale(1.2);
+    }
+
+    /* Filter Buttons */
+    .filter-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.7rem 1.5rem;
+      background: white;
+      border: 2px solid var(--accent2);
+      border-radius: 25px;
+      color: var(--text);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: translateY(-2px);
     }
 
     footer {
-      background: #1D1D1D;
+      background: linear-gradient(135deg, #1D1D1D 0%, #2A2A2A 100%);
       color: white;
       text-align: center;
-      padding: 2rem 1rem;
-      margin-top: 3rem;
+      padding: 3rem 2rem;
+      margin-top: 4rem;
+    }
+
+    footer p {
+      font-size: 1rem;
     }
 
     footer a {
       color: var(--accent2);
       margin: 0 1rem;
       text-decoration: none;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .nav-dropdown {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.95);
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .nav-dropdown a {
+        color: white;
+        font-size: 1.5rem;
+        padding: 1.5rem;
+        border-bottom: none;
+      }
+
+      main {
+        padding: 0 1rem;
+      }
+
+      .intro {
+        padding: 2rem 1.5rem;
+      }
+
+      .swiper-slide {
+        padding: 2rem 1.5rem;
+      }
+
+      .post-title {
+        font-size: 1.5rem;
+      }
+
+      .post-meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .filter-controls {
+        gap: 0.5rem;
+      }
+
+      .filter-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--accent2);
+      border-top: 4px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="burger" id="burgerMenu">☰</div>
-    <h1>Blessing Agbor's API Security Journal</h1>
-    <p>Learning API Security, Week by Week</p>
+    <div class="header-content">
+      <div class="logo-section">
+        <h1>Blessing Agbor's API Security Journal</h1>
+        <p>Learning API Security, Week by Week</p>
+      </div>
+      
+      <div class="nav-container">
+        <button class="nav-toggle" id="navToggle">
+          <span>☰</span>
+          <span>Menu</span>
+        </button>
+        
+        <nav class="nav-dropdown" id="navDropdown">
+          <a href="#about">About</a>
+          <a href="#blogs">Blogs</a>
+          <a href="#contact">Contact</a>
+          <a href="#resources">Resources</a>
+        </nav>
+      </div>
+    </div>
   </header>
-
-  <div class="sidebar" id="sidebar">
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#resources">Resources</a>
-    <a href="#contact">Contact</a>
-  </div>
 
   <main>
     <div class="intro">
-      <h2>Welcome!</h2>
+      <h2>Welcome to My Learning Journey!</h2>
       <p>This is where I document my journey learning API security from scratch—vulnerabilities, tools, stories, and breakthroughs. If you're curious about APIs, DevSecOps, or just want to follow a real learning curve, you're in the right place.</p>
     </div>
 
     <div class="search-wrapper">
-      <input type="text" id="searchInput" placeholder="Search reports by title, date, or keyword...">
+      <div class="search-container">
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input"
+          placeholder="Search reports by title, date, or keyword..."
+        >
+        <div class="search-suggestions" id="searchSuggestions"></div>
+      </div>
     </div>
 
-    <div class="swiper" id="reportSlider">
+    <div class="filter-controls">
+      <button class="filter-btn active" data-filter="all">All Posts</button>
+      <button class="filter-btn" data-filter="owasp">OWASP</button>
+      <button class="filter-btn" data-filter="jwt">JWT</button>
+      <button class="filter-btn" data-filter="devsecops">DevSecOps</button>
+      <button class="filter-btn" data-filter="api">API Security</button>
+    </div>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Loading reports...</p>
+    </div>
+
+    <div class="swiper-container" id="reportSlider">
       <div class="swiper-wrapper">
-        <div class="swiper-slide slide">
-          <div class="post-title">Debugging Myself While Debugging APIs</div>
-          <p>Exploring VAmPI, I uncovered API security flaws like BOLA, BFLA, and learned the difference between public data vs protected actions.</p>
-          <div class="tags">
-            <span class="tag">OWASP</span>
-            <span class="tag">DevSecOps</span>
-            <span class="tag">VAmPI</span>
+        <div class="swiper-slide" data-date="2025-01-15" data-tags="owasp devsecops vampi">
+          <h3 class="post-title">Debugging Myself While Debugging APIs</h3>
+          <div class="post-meta">
+            <span class="post-date">January 15, 2025</span>
+            <div class="tags">
+              <span class="tag">OWASP</span>
+              <span class="tag">DevSecOps</span>
+              <span class="tag">VAmPI</span>
+            </div>
           </div>
-          <a class="read-link" href="posts/VamPI analysis: Week1.html">Read full report →</a>
+          <p class="post-content">Exploring VAmPI, I uncovered API security flaws like BOLA, BFLA, and learned the difference between public data vs protected actions. This deep dive taught me more about myself as a learner than I expected.</p>
+          <a class="read-link" href="posts/VamPI analysis: Week1.html">
+            Read full report →
+          </a>
         </div>
 
-        <div class="swiper-slide slide">
-          <div class="post-title">Token Troubles & Trust Chains</div>
-          <p>This post dives into JWT authentication, misconfigured endpoints, and what broken trust looks like in real-world APIs.</p>
-          <div class="tags">
-            <span class="tag">JWT</span>
-            <span class="tag">Authentication</span>
-            <span class="tag">API Design</span>
+        <div class="swiper-slide" data-date="2025-01-22" data-tags="jwt authentication api">
+          <h3 class="post-title">Token Troubles & Trust Chains</h3>
+          <div class="post-meta">
+            <span class="post-date">January 22, 2025</span>
+            <div class="tags">
+              <span class="tag">JWT</span>
+              <span class="tag">Authentication</span>
+              <span class="tag">API Design</span>
+            </div>
           </div>
-          <a class="read-link" href="#">Read full report →</a>
+          <p class="post-content">This post dives into JWT authentication, misconfigured endpoints, and what broken trust looks like in real-world APIs. Sometimes the weakest link isn't the algorithm—it's the implementation.</p>
+          <a class="read-link" href="#">
+            Read full report →
+          </a>
         </div>
 
-        <div class="swiper-slide slide">
-          <div class="post-title">Resetting the World via /createdb</div>
-          <p>A rogue endpoint that resets production data? Yes. We explore the consequences of underprotected developer endpoints.</p>
-          <div class="tags">
-            <span class="tag">Misconfig</span>
-            <span class="tag">Security Flaws</span>
-            <span class="tag">APIsec</span>
+        <div class="swiper-slide" data-date="2025-01-29" data-tags="misconfig security api">
+          <h3 class="post-title">Resetting the World via /createdb</h3>
+          <div class="post-meta">
+            <span class="post-date">January 29, 2025</span>
+            <div class="tags">
+              <span class="tag">Misconfig</span>
+              <span class="tag">Security Flaws</span>
+              <span class="tag">APIsec</span>
+            </div>
           </div>
-          <a class="read-link" href="#">Read full report →</a>
+          <p class="post-content">A rogue endpoint that resets production data? Yes. We explore the consequences of underprotected developer endpoints and why proper access controls matter more than you think.</p>
+          <a class="read-link" href="#">
+            Read full report →
+          </a>
+        </div>
+
+        <div class="swiper-slide" data-date="2025-02-05" data-tags="owasp api security">
+          <h3 class="post-title">When Rate Limits Fail: A Story of API Abuse</h3>
+          <div class="post-meta">
+            <span class="post-date">February 5, 2025</span>
+            <div class="tags">
+              <span class="tag">Rate Limiting</span>
+              <span class="tag">API Abuse</span>
+              <span class="tag">OWASP</span>
+            </div>
+          </div>
+          <p class="post-content">What happens when your API protection mechanisms become the very thing attackers exploit? A deep dive into rate limiting failures and the importance of layered security.</p>
+          <a class="read-link" href="#">
+            Read full report →
+          </a>
         </div>
       </div>
+      
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination"></div>
     </div>
   </main>
 
   <footer>
-    <p>&copy; 2025 Blessing Agbor | <a href="#github">GitHub</a> | <a href="#substack">Substack</a> | <a href="#linkedin">LinkedIn</a></p>
+    <p>&copy; 2025 Blessing Agbor | 
+      <a href="#github">GitHub</a> | 
+      <a href="#substack">Substack</a> | 
+      <a href="#linkedin">LinkedIn</a>
+    </p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
   <script src="assets/js/main.js"></script>
-  <script>
-    const swiper = new Swiper('.swiper', {
-      slidesPerView: 1,
-      spaceBetween: 20,
-      loop: false,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-    });
-  </script>
 </body>
 </html>
