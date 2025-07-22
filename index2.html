@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blessing Agbor's API Security Journal</title>
+  <link rel="icon" href="assets/logo.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/js/react-slider.css">
   <style>
     :root {
       --primary: #005F73;
@@ -25,16 +26,16 @@
 
     body {
       font-family: 'Parkinsans', sans-serif;
-      background-color: var(--highlight);
+      background: var(--highlight);
       color: var(--text);
+      line-height: 1.7;
     }
 
     header {
-      background-color: var(--primary);
+      background: var(--primary);
       color: white;
-      padding: 2rem;
+      padding: 2rem 1rem;
       text-align: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       position: relative;
     }
 
@@ -43,184 +44,216 @@
     }
 
     header p {
-      font-size: 1rem;
       opacity: 0.9;
     }
 
-    /* Burger menu */
     .burger {
       position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      width: 30px;
-      height: 22px;
+      top: 1.2rem;
+      right: 1.2rem;
+      font-size: 1.5rem;
       cursor: pointer;
-      z-index: 1001;
+      z-index: 999;
+      color: white;
     }
 
-    .burger div {
-      width: 100%;
-      height: 4px;
-      background: white;
-      margin: 4px 0;
-      transition: 0.3s;
-    }
-
-    nav.sidebar {
+    .sidebar {
       position: fixed;
       top: 0;
-      right: -260px;
-      height: 100vh;
-      width: 240px;
+      right: -250px;
+      width: 250px;
+      height: 100%;
       background: var(--primary);
-      padding: 3rem 1.5rem;
       color: white;
+      padding: 2rem;
       transition: right 0.3s ease;
-      z-index: 1000;
+      z-index: 998;
     }
 
-    nav.sidebar.active {
+    .sidebar.visible {
       right: 0;
     }
 
-    nav.sidebar ul {
-      list-style: none;
-    }
-
-    nav.sidebar ul li {
-      margin-bottom: 1.5rem;
-    }
-
-    nav.sidebar ul li a {
+    .sidebar a {
+      display: block;
+      margin: 1rem 0;
       color: white;
       text-decoration: none;
-      font-weight: 500;
-    }
-
-    nav.sidebar ul li a:hover {
-      color: var(--accent2);
     }
 
     main {
-      padding: 2rem;
-      max-width: 960px;
-      margin: auto;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
     }
 
-    #searchInput {
-      padding: 0.7rem;
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+    .intro {
+      text-align: center;
       margin-bottom: 2rem;
     }
 
-    .slider {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      gap: 2rem;
-    }
-
-    .slide {
-      flex: 0 0 100%;
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      scroll-snap-align: start;
-      min-width: 100%;
-    }
-
-    .slide h2 {
+    .intro h2 {
       color: var(--accent1);
       margin-bottom: 0.5rem;
     }
 
-    .slide p {
-      margin-bottom: 1.5rem;
-      text-align: justify;
+    .intro p {
+      font-size: 1.1rem;
+      color: var(--text);
     }
 
-    .slide a {
-      color: var(--primary);
-      font-weight: 600;
-      text-decoration: none;
+    .search-wrapper {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
     }
 
-    .slide a:hover {
-      color: var(--accent2);
+    .search-wrapper input {
+      padding: 0.7rem 1rem;
+      width: 100%;
+      max-width: 500px;
+      border: 2px solid var(--accent2);
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .swiper {
+      width: 100%;
+      padding-bottom: 2rem;
+    }
+
+    .swiper-slide {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin: 0 auto;
+      width: 90%;
+    }
+
+    .post-title {
+      color: var(--accent1);
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .read-more {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--accent1);
       text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .tags {
+      margin-top: 1rem;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 0.3rem 0.6rem;
+      border-radius: 12px;
+      margin-right: 0.5rem;
+      font-size: 0.8rem;
     }
 
     footer {
-      text-align: center;
-      padding: 2rem;
-      background: var(--primary);
+      background: #1D1D1D;
       color: white;
-      margin-top: 4rem;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+
+    footer a {
+      color: var(--accent2);
+      margin: 0 1rem;
+      text-decoration: none;
     }
   </style>
-  <script src="assets/js/main.js" defer></script>
 </head>
 <body>
   <header>
+    <div class="burger" id="burgerMenu">☰</div>
     <h1>Blessing Agbor's API Security Journal</h1>
-    <p>Learning API Security, Task by Task</p>
-    <div class="burger" onclick="toggleSidebar()">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    <p>Learning API Security, One Challenge at a Time</p>
   </header>
 
-  <nav class="sidebar" id="sidebar">
-    <ul>
-      <li><a href="#vamPI-analysis">VAmPI Analysis</a></li>
-      <li><a href="#jwt-confusion">JWT & Access Pitfalls</a></li>
-      <li><a href="#broken-endpoints">Broken Endpoints</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#resources">Resources</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+  <div class="sidebar" id="sidebar">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#resources">Resources</a>
+    <a href="#contact">Contact</a>
+  </div>
 
   <main>
-    <input type="text" id="searchInput" placeholder="Search by title, keyword, or date..." />
+    <div class="intro">
+      <h2>Welcome!</h2>
+      <p>This blog is my open notebook as I explore API Security — documenting lessons, vulnerabilities, tools, and takeaways from real-world exercises. Whether you're a beginner or growing expert, you'll find real talk, clean writeups, and insight into breaking and securing APIs.</p>
+    </div>
 
-    <div id="reportSlider" class="slider">
-      <div class="slide" id="vamPI-analysis">
-        <h2>VAmPI Analysis: Finding and Fixing API Flaws</h2>
-        <p><strong>Posted:</strong> July 21, 2025</p>
-        <p>Exploring vulnerabilities like BOLA, BFLA and poor endpoint authorization in a deliberately insecure API.</p>
-        <a href="posts/vampi-analysis.html">Read Full Report →</a>
-      </div>
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" placeholder="Search reports by title, date, or keyword...">
+    </div>
 
-      <div class="slide" id="jwt-confusion">
-        <h2>JWT Confusion & Role-Based Access Pitfalls</h2>
-        <p><strong>Posted:</strong> July 28, 2025</p>
-        <p>Investigating how JWT misuse and poor access control logic allows privilege escalation.</p>
-        <a href="posts/jwt-rbac-misuse.html">Read Full Report →</a>
-      </div>
+    <div class="swiper" id="reportSlider">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide slide">
+          <div class="post-title">Debugging Myself While Debugging APIs</div>
+          <p>Exploring VAmPI, I uncovered API security flaws like BOLA, BFLA, and learned the difference between public data vs protected actions.</p>
+          <a class="read-more" href="posts/VamPI_analysis_Week1.html">Read full report →</a>
+          <div class="tags">
+            <span class="tag">OWASP</span>
+            <span class="tag">DevSecOps</span>
+            <span class="tag">VAmPI</span>
+          </div>
+        </div>
 
-      <div class="slide" id="broken-endpoints">
-        <h2>Broken Endpoints & Misconfigured Access</h2>
-        <p><strong>Posted:</strong> August 5, 2025</p>
-        <p>Misconfigured debug routes and admin flows: how exposing internal tools leads to massive leakage.</p>
-        <a href="posts/broken-debug-access.html">Read Full Report →</a>
+        <div class="swiper-slide slide">
+          <div class="post-title">Token Troubles & Trust Chains</div>
+          <p>This post dives into JWT authentication, misconfigured endpoints, and what broken trust looks like in real-world APIs.</p>
+          <a class="read-more" href="#">Read full report →</a>
+          <div class="tags">
+            <span class="tag">JWT</span>
+            <span class="tag">Authentication</span>
+            <span class="tag">API Design</span>
+          </div>
+        </div>
+
+        <div class="swiper-slide slide">
+          <div class="post-title">Resetting the World via /createdb</div>
+          <p>A rogue endpoint that resets production data? Yes. We explore the consequences of underprotected developer endpoints.</p>
+          <a class="read-more" href="#">Read full report →</a>
+          <div class="tags">
+            <span class="tag">Misconfig</span>
+            <span class="tag">Security Flaws</span>
+            <span class="tag">APIsec</span>
+          </div>
+        </div>
       </div>
     </div>
   </main>
 
   <footer>
-    <p>&copy; 2025 Blessing Agbor | <a href="#">GitHub</a> | <a href="#">Substack</a> | <a href="#">LinkedIn</a></p>
+    <p>&copy; 2025 Blessing Agbor | <a href="#github">GitHub</a> | <a href="#substack">Substack</a> | <a href="#linkedin">LinkedIn</a></p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("active");
-    }
+    const swiper = new Swiper('.swiper', {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: false,
+      navigation: false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
   </script>
 </body>
 </html>
