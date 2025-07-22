@@ -1,39 +1,42 @@
-// main.js - Enhancing slider, search suggestions, and responsive nav
+// main.js — Swiper Slider + Search + Burger Menu
 
 document.addEventListener('DOMContentLoaded', function () {
+  // 1. Initialize Swiper
+  const swiper = new Swiper('.swiper-container', {
+    slidesPerView: 1,
+    spaceBetween: 40,
+    loop: false,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    grabCursor: true,
+  });
+
+  // 2. Burger Menu Toggle
   const burger = document.getElementById('burgerMenu');
   const sidebar = document.querySelector('.sidebar');
-  const searchInput = document.getElementById('searchInput');
-  const slides = document.querySelectorAll('.slide');
-  const slider = document.getElementById('reportSlider');
 
-  // Toggle sidebar visibility (Burger Menu)
   burger.addEventListener('click', () => {
     sidebar.classList.toggle('visible');
   });
 
-  // Search filter with suggestion
+  // 3. Live Search Filter
+  const searchInput = document.getElementById('searchInput');
+  const slides = document.querySelectorAll('.swiper-slide');
+
   searchInput.addEventListener('input', function () {
     const query = this.value.toLowerCase();
+
     slides.forEach(slide => {
-      const text = slide.textContent.toLowerCase();
-      if (text.includes(query)) {
+      const title = slide.querySelector('h3').textContent.toLowerCase();
+      const tags = slide.querySelector('.tags')?.textContent.toLowerCase() || '';
+
+      if (title.includes(query) || tags.includes(query)) {
         slide.style.display = 'block';
       } else {
         slide.style.display = 'none';
       }
     });
   });
-
-  // Slider navigation buttons (optional)
-  let currentIndex = 0;
-
-  function showSlide(index) {
-    slider.scrollTo({
-      left: slider.offsetWidth * index,
-      behavior: 'smooth'
-    });
-  }
-
-  // Optional: Auto-scroll or button controls can be added later
 });
