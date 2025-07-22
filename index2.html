@@ -4,20 +4,184 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blessing Agbor's API Security Journal</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/js/react-slider.css">
+  <style>
+    :root {
+      --primary: #005F73;
+      --accent1: #9B2226;
+      --accent2: #FFB4A2;
+      --highlight: #FFF1E6;
+      --text: #1D1D1D;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Parkinsans', sans-serif;
+      background-color: var(--highlight);
+      color: var(--text);
+    }
+
+    header {
+      background-color: var(--primary);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 2rem;
+    }
+
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    /* Burger menu */
+    .burger {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 30px;
+      height: 22px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .burger div {
+      width: 100%;
+      height: 4px;
+      background: white;
+      margin: 4px 0;
+      transition: 0.3s;
+    }
+
+    nav.sidebar {
+      position: fixed;
+      top: 0;
+      right: -260px;
+      height: 100vh;
+      width: 240px;
+      background: var(--primary);
+      padding: 3rem 1.5rem;
+      color: white;
+      transition: right 0.3s ease;
+      z-index: 1000;
+    }
+
+    nav.sidebar.active {
+      right: 0;
+    }
+
+    nav.sidebar ul {
+      list-style: none;
+    }
+
+    nav.sidebar ul li {
+      margin-bottom: 1.5rem;
+    }
+
+    nav.sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav.sidebar ul li a:hover {
+      color: var(--accent2);
+    }
+
+    main {
+      padding: 2rem;
+      max-width: 960px;
+      margin: auto;
+    }
+
+    #searchInput {
+      padding: 0.7rem;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 2rem;
+    }
+
+    .slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 2rem;
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      scroll-snap-align: start;
+      min-width: 100%;
+    }
+
+    .slide h2 {
+      color: var(--accent1);
+      margin-bottom: 0.5rem;
+    }
+
+    .slide p {
+      margin-bottom: 1.5rem;
+      text-align: justify;
+    }
+
+    .slide a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .slide a:hover {
+      color: var(--accent2);
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: var(--primary);
+      color: white;
+      margin-top: 4rem;
+    }
+  </style>
   <script src="assets/js/main.js" defer></script>
 </head>
 <body>
   <header>
     <h1>Blessing Agbor's API Security Journal</h1>
     <p>Learning API Security, Task by Task</p>
+    <div class="burger" onclick="toggleSidebar()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </header>
 
-  <nav class="sidebar">
+  <nav class="sidebar" id="sidebar">
     <ul>
-      <li><a href="#vamPI-analysis">VAmPI Analysis: Finding and Fixing API Flaws</a></li>
-      <li><a href="#jwt-confusion">JWT Confusion & Role-Based Access Pitfalls</a></li>
-      <li><a href="#broken-endpoints">Broken Endpoints & Misconfigured Access</a></li>
+      <li><a href="#vamPI-analysis">VAmPI Analysis</a></li>
+      <li><a href="#jwt-confusion">JWT & Access Pitfalls</a></li>
+      <li><a href="#broken-endpoints">Broken Endpoints</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
@@ -25,27 +189,24 @@
     <input type="text" id="searchInput" placeholder="Search by title, keyword, or date..." />
 
     <div id="reportSlider" class="slider">
-      <!-- Slide 1 -->
       <div class="slide" id="vamPI-analysis">
         <h2>VAmPI Analysis: Finding and Fixing API Flaws</h2>
         <p><strong>Posted:</strong> July 21, 2025</p>
-        <p>This blog explores common OWASP API Top 10 vulnerabilities like BOLA, BFLA, and data exposure found in a deliberately vulnerable API known as VAmPI. Learn how I approached the assignment, uncovered flaws in authorization logic, and recommended practical fixes with code examples.</p>
+        <p>Exploring vulnerabilities like BOLA, BFLA and poor endpoint authorization in a deliberately insecure API.</p>
         <a href="posts/vampi-analysis.html">Read Full Report →</a>
       </div>
 
-      <!-- Slide 2 -->
       <div class="slide" id="jwt-confusion">
         <h2>JWT Confusion & Role-Based Access Pitfalls</h2>
         <p><strong>Posted:</strong> July 28, 2025</p>
-        <p>This task revealed how identity tokens are misused to authorize sensitive actions. From decoding JWTs to detecting lack of role checks, I walk through poor admin validation and share how to implement secure role-based access control in REST APIs.</p>
+        <p>Investigating how JWT misuse and poor access control logic allows privilege escalation.</p>
         <a href="posts/jwt-rbac-misuse.html">Read Full Report →</a>
       </div>
 
-      <!-- Slide 3 -->
       <div class="slide" id="broken-endpoints">
         <h2>Broken Endpoints & Misconfigured Access</h2>
         <p><strong>Posted:</strong> August 5, 2025</p>
-        <p>While testing endpoints for a fictional API, I found critical misconfigurations in debug and admin routes. This post breaks down how development conveniences, if left in production, open up gaping security holes — and how to avoid them.</p>
+        <p>Misconfigured debug routes and admin flows: how exposing internal tools leads to massive leakage.</p>
         <a href="posts/broken-debug-access.html">Read Full Report →</a>
       </div>
     </div>
@@ -54,5 +215,12 @@
   <footer>
     <p>&copy; 2025 Blessing Agbor | <a href="#">GitHub</a> | <a href="#">Substack</a> | <a href="#">LinkedIn</a></p>
   </footer>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("active");
+    }
+  </script>
 </body>
 </html>
