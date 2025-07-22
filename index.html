@@ -1,58 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blessing Agbor's API Security Journal</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="assets/js/main.js" defer></script>
+  <link rel="icon" href="assets/logo.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #005F73;
+      --accent1: #9B2226;
+      --accent2: #FFB4A2;
+      --highlight: #FFF1E6;
+      --text: #1D1D1D;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Parkinsans', sans-serif;
+      background: var(--highlight);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 2rem;
+    }
+
+    header p {
+      opacity: 0.9;
+    }
+
+    .burger {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 999;
+      color: white;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      background: var(--primary);
+      color: white;
+      padding: 2rem;
+      transition: right 0.3s ease;
+    }
+
+    .sidebar.visible {
+      right: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      margin: 1rem 0;
+      color: white;
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .intro {
+      background: var(--accent2);
+      color: var(--text);
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .search-wrapper {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-wrapper input {
+      padding: 0.7rem 1rem;
+      width: 100%;
+      max-width: 500px;
+      border: 2px solid var(--accent2);
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .swiper {
+      width: 100%;
+      padding-bottom: 2rem;
+    }
+
+    .swiper-slide {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin: 0 auto;
+      max-width: 700px;
+    }
+
+    .post-title {
+      color: var(--accent1);
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .tags {
+      margin-top: 1rem;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 0.3rem 0.6rem;
+      border-radius: 12px;
+      margin-right: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .read-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--accent1);
+      font-weight: 500;
+    }
+
+    .read-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background: #1D1D1D;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+
+    footer a {
+      color: var(--accent2);
+      margin: 0 1rem;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
   <header>
+    <div class="burger" id="burgerMenu">☰</div>
     <h1>Blessing Agbor's API Security Journal</h1>
-    <p>Learning API Security, Task by Task</p>
+    <p>Learning API Security, Week by Week</p>
   </header>
 
-  <nav class="sidebar">
-    <ul>
-      <li><a href="#vamPI-analysis">VAmPI Analysis: Finding and Fixing API Flaws</a></li>
-      <li><a href="#jwt-confusion">JWT Confusion & Role-Based Access Pitfalls</a></li>
-      <li><a href="#broken-endpoints">Broken Endpoints & Misconfigured Access</a></li>
-    </ul>
-  </nav>
+  <div class="sidebar" id="sidebar">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#resources">Resources</a>
+    <a href="#contact">Contact</a>
+  </div>
 
   <main>
-    <input type="text" id="searchInput" placeholder="Search by title, keyword, or date..." />
+    <div class="intro">
+      <h2>Welcome!</h2>
+      <p>This is where I document my journey learning API security from scratch—vulnerabilities, tools, stories, and breakthroughs. If you're curious about APIs, DevSecOps, or just want to follow a real learning curve, you're in the right place.</p>
+    </div>
 
-    <div id="reportSlider" class="slider">
-      <!-- Slide 1 -->
-      <div class="slide" id="vamPI-analysis">
-        <h2>VAmPI Analysis: Finding and Fixing API Flaws</h2>
-        <p><strong>Posted:</strong> July 21, 2025</p>
-        <p>This blog explores common OWASP API Top 10 vulnerabilities like BOLA, BFLA, and data exposure found in a deliberately vulnerable API known as VAmPI. Learn how I approached the assignment, uncovered flaws in authorization logic, and recommended practical fixes with code examples.</p>
-        <a href="posts/vampi-analysis.html">Read Full Report →</a>
-      </div>
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" placeholder="Search reports by title, date, or keyword...">
+    </div>
 
-      <!-- Slide 2 -->
-      <div class="slide" id="jwt-confusion">
-        <h2>JWT Confusion & Role-Based Access Pitfalls</h2>
-        <p><strong>Posted:</strong> July 28, 2025</p>
-        <p>This task revealed how identity tokens are misused to authorize sensitive actions. From decoding JWTs to detecting lack of role checks, I walk through poor admin validation and share how to implement secure role-based access control in REST APIs.</p>
-        <a href="posts/jwt-rbac-misuse.html">Read Full Report →</a>
-      </div>
+    <div class="swiper" id="reportSlider">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide slide">
+          <div class="post-title">Debugging Myself While Debugging APIs</div>
+          <p>Exploring VAmPI, I uncovered API security flaws like BOLA, BFLA, and learned the difference between public data vs protected actions.</p>
+          <div class="tags">
+            <span class="tag">OWASP</span>
+            <span class="tag">DevSecOps</span>
+            <span class="tag">VAmPI</span>
+          </div>
+          <a class="read-link" href="posts/VamPI analysis: Week1.html">Read full report →</a>
+        </div>
 
-      <!-- Slide 3 -->
-      <div class="slide" id="broken-endpoints">
-        <h2>Broken Endpoints & Misconfigured Access</h2>
-        <p><strong>Posted:</strong> August 5, 2025</p>
-        <p>While testing endpoints for a fictional API, I found critical misconfigurations in debug and admin routes. This post breaks down how development conveniences, if left in production, open up gaping security holes — and how to avoid them.</p>
-        <a href="posts/broken-debug-access.html">Read Full Report →</a>
+        <div class="swiper-slide slide">
+          <div class="post-title">Token Troubles & Trust Chains</div>
+          <p>This post dives into JWT authentication, misconfigured endpoints, and what broken trust looks like in real-world APIs.</p>
+          <div class="tags">
+            <span class="tag">JWT</span>
+            <span class="tag">Authentication</span>
+            <span class="tag">API Design</span>
+          </div>
+          <a class="read-link" href="#">Read full report →</a>
+        </div>
+
+        <div class="swiper-slide slide">
+          <div class="post-title">Resetting the World via /createdb</div>
+          <p>A rogue endpoint that resets production data? Yes. We explore the consequences of underprotected developer endpoints.</p>
+          <div class="tags">
+            <span class="tag">Misconfig</span>
+            <span class="tag">Security Flaws</span>
+            <span class="tag">APIsec</span>
+          </div>
+          <a class="read-link" href="#">Read full report →</a>
+        </div>
       </div>
     </div>
   </main>
 
   <footer>
-    <p>&copy; 2025 Blessing Agbor | <a href="#">GitHub</a> | <a href="#">Substack</a> | <a href="#">LinkedIn</a></p>
+    <p>&copy; 2025 Blessing Agbor | <a href="#github">GitHub</a> | <a href="#substack">Substack</a> | <a href="#linkedin">LinkedIn</a></p>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    const swiper = new Swiper('.swiper', {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      loop: false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+  </script>
 </body>
 </html>
