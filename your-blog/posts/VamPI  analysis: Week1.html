@@ -1,1 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1: Dissecting VAmPI - API Security Journey</title>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #005F73;
+            --accent1: #9B2226;
+            --accent2: #FFB4A2;
+            --highlight: #FFF1E6;
+            --text: #1D1D1D;
+            --light-gray: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            
+            .parkinsans-<uniquifier> {
+              font-family: "Parkinsans", sans-serif;
+              font-optical-sizing: auto;
+              font-weight: <weight>;
+              font-style: normal;
+}
+        }
+
+        body {
+            font-family: 'Parkinsans', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--highlight);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .site-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .site-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--primary);
+            padding: 1rem 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent2);
+        }
+
+        /* Main Content */
+        main {
+            background: white;
+            margin: 2rem auto;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        /* Typography */
+        h1 {
+            color: var(--accent1);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 3rem 0 1.5rem 0;
+            border-left: 4px solid var(--accent2);
+            padding-left: 1rem;
+        }
+
+        h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 2.5rem 0 1rem 0;
+        }
+
+        .meta {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--highlight);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent2);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        /* Code blocks */
+        code {
+            background: var(--highlight);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            color: var(--accent1);
+        }
+
+        pre {
+            background: var(--highlight);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text);
+        }
+
+        /* Callout boxes */
+        .callout {
+            background: linear-gradient(135deg, var(--accent2), #FFD6CC);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 5px solid var(--accent1);
+        }
+
+        .callout h4 {
+            color: var(--accent1);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Links */
+        a {
+            color: var(--accent1);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent2);
+            text-decoration: underline;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tags */
+        .tags {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 0.2rem 0.5rem 0.2rem 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            main {
+                margin: 1rem auto;
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Reading progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent1);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header>
+        <div class="container">
+            <h1 class="site-title">API Security Journey</h1>
+            <p class="site-subtitle">Learning API Security One Week at a Time</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#weeks">Weekly Reports</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <main>
+            <h1>Dissecting VAmPI: When API Documentation Reveals More Than It Should</h1>
+            
+            <div class="meta">
+                <strong>Week 1 Deep Dive</strong> • APIsecUniversity Journey • Published: July 22, 2025
+            </div>
+
+            <p>There's something unsettling about examining an API that openly admits to being vulnerable. VAmPI doesn't hide what it is - the very name suggests a predatory nature, and as I dig into this OpenAPI specification, I'm beginning to understand why.</p>
+
+            <p>I'm sitting here with 400+ lines of YAML, and already the patterns are emerging. This isn't just about finding vulnerabilities; it's about understanding how seemingly innocent design decisions cascade into security nightmares.</p>
+
+            <h2>The Architecture: A House Built on Questionable Foundations</h2>
+
+            <p>VAmPI presents itself as a straightforward REST API running on localhost:5000. Two primary modules handle the core functionality:</p>
+
+            <p><strong>Users Module</strong> (<code>/users/v1/*</code>) - The identity layer where everything begins and, as we'll see, where trust relationships crumble.</p>
+
+            <p><strong>Books Module</strong> (<code>/books/v1/*</code>) - A content management system with promises of privacy that it cannot keep.</p>
+
+            <p>The authentication mechanism relies on JWT Bearer tokens, which should theoretically provide session management and identity verification. But theory and implementation often diverge in fascinating ways.</p>
+
+            <h2>Following the Trust Chain: Where Authentication Meets Reality</h2>
+
+            <p>Let me start with the login flow, because understanding how trust is established helps illuminate where it breaks down.</p>
+
+            <p>A user registers via <code>POST /users/v1/register</code>, providing username, password, and email. Standard stuff. Then they authenticate through <code>POST /users/v1/login</code>, receiving a JWT token that supposedly grants them access to protected resources.</p>
+
+            <p>Here's where things get interesting. The specification includes a <code>GET /me</code> endpoint that requires bearer authentication and returns the current user's information. This endpoint works correctly - it validates the token and returns data specific to the authenticated user. It's a baseline showing that the developers understand basic authenticated resource access.</p>
+
+            <p>So why does this understanding completely vanish in other endpoints?</p>
+
+            <h2>The Identity Crisis: When URLs Become Truth</h2>
+
+            <p>Looking at <code>PUT /users/v1/{username}/email</code> and <code>PUT /users/v1/{username}/password</code>, I'm witnessing a fundamental misunderstanding of authorization versus authentication.</p>
+
+            <p>These endpoints require bearer authentication - they verify that <em>someone</em> is logged in. But they completely ignore <em>who</em> is logged in when determining access to resources. The username in the URL path becomes the sole determiner of which user account gets modified.</p>
+
+            <div class="callout">
+                <h4>The Attack Flow</h4>
+                <p>Think about the logical flow here:</p>
+                <ol>
+                    <li>Alice authenticates and receives a JWT token identifying her as "alice"</li>
+                    <li>Alice makes a request to <code>PUT /users/v1/bob/password</code></li>
+                    <li>The API validates Alice's token (authentication succeeds)</li>
+                    <li>The API modifies Bob's password (authorization failure)</li>
+                </ol>
+            </div>
+
+            <p>This represents a complete disconnect between identity verification and resource access control. The JWT token becomes nothing more than a "you are logged in" flag, stripped of its actual identity information when making authorization decisions.</p>
+
+            <h2>The Debug Endpoint: A Window Into Poor Operational Security</h2>
+
+            <p>Then there's <code>GET /users/v1/_debug</code> - an endpoint that epitomizes the dangerous intersection of development convenience and production security.</p>
+
+            <p>This endpoint requires no authentication whatsoever. None. It simply returns every user record in the database, complete with plaintext passwords, admin flags, and email addresses.</p>
+
+            <pre><code>{
+  "users": [{
+    "admin": true,
+    "email": "admin@company.com",
+    "password": "plaintext_admin_pass",  // 🚨 WHAT?!
+    "username": "admin"
+  }]
+}</code></pre>
+
+            <p>What makes this particularly egregious is the intentional design choice to expose password fields. This isn't accidental data leakage - someone explicitly decided to include password information in the response schema.</p>
+
+            <h2>The Books Module: Privacy Theater in Action</h2>
+
+            <p>The books functionality introduces an interesting concept - user-owned content with "secrets" that should only be accessible to owners. The <code>GET /books/v1/{book_title}</code> endpoint explicitly states: "Only the owner may retrieve it."</p>
+
+            <p>But examining the specification reveals no mechanism for ownership verification. The endpoint requires authentication (someone must be logged in), but provides no indication of how the system determines whether the authenticated user owns the requested book.</p>
+
+            <h3>Administrative Functions: The Illusion of Access Control</h3>
+
+            <p>The <code>DELETE /users/v1/{username}</code> endpoint presents itself as admin-only functionality. The specification clearly states "(Only Admins)" in both the summary and description fields. The response schema even includes specific error messages for unauthorized access: "Only Admins may delete users!"</p>
+
+            <p>Yet the specification provides no details about how admin status is verified. Is it a flag in the JWT token? A separate administrative authentication system? Role-based access control? The documentation promises protection but provides no implementation guidance.</p>
+
+            <h2>The Database Initialization Vulnerability</h2>
+
+            <p>An often-overlooked endpoint is <code>GET /createdb</code>, which "Creates and populates the database with dummy data." This endpoint requires no authentication and can be called by anyone.</p>
+
+            <p>Consider the implications: any user can reset the entire database to a known state with dummy data. This enables several attack vectors:</p>
+
+            <ul>
+                <li><strong>Denial of service</strong> - Legitimate user data gets wiped</li>
+                <li><strong>Privilege escalation</strong> - Dummy data likely includes default admin accounts</li>
+                <li><strong>Information disclosure</strong> - Attackers know exactly what accounts exist after reset</li>
+                <li><strong>State manipulation</strong> - The application state becomes predictable and controllable</li>
+            </ul>
+
+            <h2>The Compounding Effect: When Vulnerabilities Multiply</h2>
+
+            <p>These issues don't exist in isolation. They form an interconnected web where exploitation of one vulnerability enables exploitation of others:</p>
+
+            <ol>
+                <li><strong>Initial Access</strong>: Use the debug endpoint to harvest user credentials and identify admin accounts</li>
+                <li><strong>Lateral Movement</strong>: Use BOLA vulnerabilities to compromise additional user accounts</li>
+                <li><strong>Privilege Escalation</strong>: Target admin accounts identified in step 1 using techniques from step 2</li>
+                <li><strong>Data Exfiltration</strong>: Access all user books using compromised admin credentials</li>
+                <li><strong>Persistence</strong>: Reset database to known state and establish backdoor accounts</li>
+            </ol>
+
+            <p>Each vulnerability amplifies the impact of others, creating attack chains that extend far beyond the sum of individual flaws.</p>
+
+            <h2>Lessons for the Real World</h2>
+
+            <p>VAmPI serves as a cautionary tale about how easily security vulnerabilities can proliferate in API development. The issues here aren't exotic or theoretical - they represent common patterns found in production APIs across the industry.</p>
+
+            <p>The most troubling aspect isn't the presence of vulnerabilities, but the gap between security intentions and implementation reality. The developers clearly understood that certain endpoints should be restricted, that admin functions needed protection, and that user data required access controls. The failure occurred in translating these intentions into working code.</p>
+
+            <div class="callout">
+                <h4>Key Takeaway</h4>
+                <p>This suggests that API security education needs to focus not just on identifying vulnerabilities, but on understanding the implementation patterns that prevent them. Security becomes sustainable only when it's built into development practices, not bolted on afterward.</p>
+            </div>
+
+            <h2>Moving Forward: Questions for Week 2</h2>
+
+            <p>As I prepare for next week's assignment, several questions linger:</p>
+
+            <p>How do we build security requirements that are both comprehensive and implementable? What testing methodologies can catch authorization failures before they reach production? How do we balance development convenience with operational security?</p>
+
+            <p>VAmPI has provided a masterclass in API vulnerability patterns. The challenge now is applying these lessons to build more secure systems from the ground up.</p>
+
+            <div class="tags">
+                <span class="tag">APISecurity</span>
+                <span class="tag">VulnerabilityAnalysis</span>
+                <span class="tag">OWASP</span>
+                <span class="tag">WebSecurity</span>
+                <span class="tag">AuthorizationFlaws</span>
+                <span class="tag">APIsecUniversity</span>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#github">GitHub Repository</a>
+                <a href="#substack">Substack Newsletter</a>
+                <a href="#linkedin">LinkedIn</a>
+                <a href="#twitter">Twitter</a>
+            </div>
+            <p>&copy; 2025 API Security Journey. Learning in public, one week at a time.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Reading progress bar
+        window.addEventListener('scroll', function() {
+            const progressBar = document.getElementById('progressBar');
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            progressBar.style.width = scrolled + '%';
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
 
